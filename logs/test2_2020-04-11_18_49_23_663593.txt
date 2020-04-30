@@ -1,0 +1,22 @@
+RUNNING TEST!
+Running command: set_ignition('ON')
+1. Ignition: ON
+Running command: set_speed(50)
+2. Speed: 50
+Running command: set_speed(200)
+3. Speed: 200
+ERROR STATE! SPEED_ERROR_QOS
+Running command: set_ignition('OFF')
+4. Ignition: OFF
+==============================RESULT=============================
+------------STATE------------
+Ignition:    OFF
+Temperature: 20
+Speed:       200
+Error state: SPEED_ERROR_QOS
+-----------------------------
+(False, 'SPEED_ERROR_QOS')
+
+
+(False, 'SPEED_ERROR_QOS') =?= (False, 'SPEED_ERROR_QOS')
+PASSED TEST

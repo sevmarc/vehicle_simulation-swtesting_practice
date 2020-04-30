@@ -1,0 +1,2 @@
+test set_ignition('ON') set_speed(50) set_speed(0) set_ignition('OFF')
+True

@@ -1,0 +1,21 @@
+RUNNING TEST!
+Running command: set_ignition('ON')
+1. Ignition: ON
+Running command: set_speed(50)
+2. Speed: 50
+Running command: set_speed(0)
+3. Speed: 0
+Running command: set_ignition('OFF')
+4. Ignition: OFF
+==============================RESULT=============================
+------------STATE------------
+Ignition:    OFF
+Temperature: 20
+Speed:       0
+Error state: NORMAL_QOS
+-----------------------------
+True
+
+
+True =?= True
+PASSED TEST

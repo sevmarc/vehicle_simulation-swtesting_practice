@@ -1,0 +1,20 @@
+RUNNING TEST!
+Running command: set_speed(200)
+Unable to set speed due to NORMAL_QOS
+1. Speed: 0
+Running command: set_ignition('OFF')
+2. Ignition: OFF
+==============================RESULT=============================
+------------STATE------------
+Ignition:    OFF
+Temperature: 20
+Speed:       0
+Error state: NORMAL_QOS
+-----------------------------
+True
+
+
+Measured =?= Expected
+True =?= (False, 'NORMAL_QOS')
+
+FAILED TEST
