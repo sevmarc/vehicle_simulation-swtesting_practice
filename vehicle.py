@@ -4,6 +4,28 @@ from config import QOS, IGNITION_STATE, NORMAL_TEMP, SPEED_LIMIT, TEMP_LIMIT
     This file contains the definition of the vehicle class.
 """
 
+KEYWORDS = {
+    'IGNITION': 'set_ignition',
+    'SPEED': 'set_speed',
+    'TEMP': 'set_temp', 
+}
+KEYWORDS_ARG = {
+    'ON': IGNITION_STATE.ON,
+    'OFF': IGNITION_STATE.OFF,
+}
+
+def decode_keyword(keyphrase: str):
+    key, arg = keyphrase.split(' ')
+    arg = arg.strip('\n')
+    try:
+        if arg in KEYWORDS_ARG.keys():
+            arg = KEYWORDS_ARG[arg]
+        command_ = f'{KEYWORDS[key]}({str(arg)})'
+    except KeyError:
+        print('Incorrect keyword. ')
+        return None
+    return command_
+
 
 class Vehicle():
     def __init__(self):
@@ -13,6 +35,7 @@ class Vehicle():
         self.temp = NORMAL_TEMP
         self.error = QOS.NORMAL
         self.commands = 0
+        self.running = True
         self.debug = True
 
     def set_ignition(self, on_off: IGNITION_STATE):
@@ -28,8 +51,10 @@ class Vehicle():
         self.commands += 1
         if speed >= 0 and self.error == QOS.NORMAL and self.ignition == IGNITION_STATE.ON:
             self.speed = speed
+        elif self.ignition == IGNITION_STATE.OFF:
+            print(f'Unable to set speed: Ignition is in OFF state')
         else:
-            print(f'Unable to set speed due to {self.error}')
+            print(f'Unable to set speed: {self.error.name}')
         if self.debug:
             print(f'{self.commands}. Speed: {self.speed}')
         self.check_state()
@@ -68,9 +93,10 @@ class Vehicle():
         print('-----------------------------')
 
     def check_simulation_end(self):
+        self.running = False
         if self.error == QOS.NORMAL and \
            self.speed == 0 and \
            self.ignition == IGNITION_STATE.OFF:
             return True
         else:
-            return False, self.error
+            return False, self.error.name

@@ -18,7 +18,7 @@ def read_test(test: str) -> list[str]:
 def assert_result(exp_res: str, res: bool) -> None:
     print('Measured =?= Expected')
     print(f'{exp_res} =?= {res}')
-    if exp_res == str(res):
+    if str(exp_res) == str(res):
         print('PASSED TEST')
     else:
         print('FAILED TEST')

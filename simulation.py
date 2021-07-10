@@ -19,11 +19,34 @@ The way the simulation works:
 if __name__ == "__main__":
     test_mode = False
     # Can be run in test mode, first parameter: test, second: test file
-    if sys.argv[1] == 'test':
-        test_file = sys.argv[2]  # next parameter: test file
-        test_name = test_file.rsplit('.')[0]
-        test_file = 'test_cases/' + test_file
-        test_mode = True
+
+    # we create the 'car' object for our simulation
+    car = Vehicle()
+
+    # test_mode or normal mode (simulation)
+    def run(car):
+        if test_mode:
+            print('RUNNING TEST!')
+            run_test(test_file, car)
+        else:
+            try:
+                print('RUNNING SIMULATION!')
+                while(car.running):
+                    run_simulation(input(), car)
+            # run_simulation(sys.argv, car)
+            except KeyboardInterrupt():
+                print('EXITING SIMULATION!')
+                car.check_simulation_end()
+
+    
+    try:
+        if sys.argv[1] == 'test':
+            test_file = sys.argv[2]  # next parameter: test file
+            test_name = test_file.rsplit('.')[0]
+            test_file = 'test_cases/' + test_file
+            test_mode = True
+    except IndexError:
+        pass
 
     # if we use test_mode, then the result is written in new testlog (logs folder)
     if test_mode:
@@ -44,22 +67,7 @@ if __name__ == "__main__":
         sys.stdout = f
 
 
-    # we create the 'car' object for our simulation
-    car = Vehicle()
-
-
-    # test_mode or normal mode (simulation)
-    def run():
-        if test_mode:
-            print('RUNNING TEST!')
-            run_test(test_file, car)
-        else:
-            print('RUNNING SIMULATION!')
-            run_simulation(sys.argv, car)
-
-
-    run()  # running simulation
-
+    run(car)  # running simulation
 
     # with test_mode, the file has to be closed and stdout reset
     if test_mode:
