@@ -1,2 +1,5 @@
-set_speed(50) set_speed(200) set_ignition('OFF')
+SPEED 50
+SPEED 200
+IGNITION OFF
+
 True
