@@ -1,4 +1,5 @@
 from run_commands import run_simulation
+from vehicle import Vehicle
 
 """
     This file contains the function for running the test.
@@ -7,19 +8,23 @@ from run_commands import run_simulation
     - The second line contains the expected result (outcome).
 """
 
-
-def run_test(test, car):
-    line_count = 0
+def read_test(test: str) -> list[str]:
     with open(test) as test_file:
-        for line in test_file:
-            line_count += 1  # returns current line numbeer
-            if line_count == 1:
-                list_of_commands = line.split()
-                result = run_simulation(list_of_commands, car)
-            if line_count == 2:
-                print('Measured =?= Expected')
-                print(f'{str(result)} =?= {line}')
-                if line == str(result):
-                    print('PASSED TEST')
-                else:
-                    print('FAILED TEST')
+        test_lines = test_file.readlines()
+    test_commands = test_lines[:-2]
+    test_exp_result = test_lines[-1]
+    return test_commands, test_exp_result
+
+def assert_result(exp_res: str, res: bool) -> None:
+    print('Measured =?= Expected')
+    print(f'{exp_res} =?= {res}')
+    if exp_res == str(res):
+        print('PASSED TEST')
+    else:
+        print('FAILED TEST')
+
+
+def run_test(test: str, car: Vehicle) -> None:
+    test_commands, test_exp_result = read_test(test)
+    result = run_simulation(test_commands, car)
+    assert_result(test_exp_result, result)

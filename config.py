@@ -1,3 +1,5 @@
+from enum import IntEnum
+
 # parameter list
 
 NORMAL_TEMP = 20
@@ -5,14 +7,12 @@ TEMP_LIMIT = 100
 SPEED_LIMIT = 180
 
 # Quality of State
-QOS = [
-    'NORMAL_QOS',
-    'SPEED_ERROR_QOS',
-    'TEMP_ERROR_QOS',
-]
+class QOS(IntEnum):
+    NORMAL = 1
+    SPEED_ERROR = 2
+    TEMP_ERROR = 3
 
 # default ignition states (binary ON/OFF)
-IGNITION_STATE = [
-    'ON',
-    'OFF'
-]
+class IGNITION_STATE(IntEnum):
+    ON = 1
+    OFF = 2
