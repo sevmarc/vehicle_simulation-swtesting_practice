@@ -1,6 +1,6 @@
 from vehicle import Vehicle
 from run_test import run_test
-from run_commands import run_simulation
+from run_commands import run_simulation, run_command
 import datetime
 import os
 import sys
@@ -32,7 +32,10 @@ if __name__ == "__main__":
             try:
                 print('RUNNING SIMULATION!')
                 while(car.running):
-                    run_simulation(input(), car)
+                    command_ = input()
+                    run_command(command_, car)
+                car.print_state()
+                print('SIMULATION OVER.')
             # run_simulation(sys.argv, car)
             except KeyboardInterrupt():
                 print('EXITING SIMULATION!')
