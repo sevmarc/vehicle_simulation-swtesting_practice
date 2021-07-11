@@ -8,6 +8,7 @@ KEYWORDS = {
     'IGNITION': 'set_ignition',
     'SPEED': 'set_speed',
     'TEMP': 'set_temp', 
+    'STOP': 'check_simulation_end'
 }
 KEYWORDS_ARG = {
     'ON': IGNITION_STATE.ON,
@@ -15,7 +16,10 @@ KEYWORDS_ARG = {
 }
 
 def decode_keyword(keyphrase: str):
-    key, arg = keyphrase.split(' ')
+    try:
+        key, arg = keyphrase.split(' ')
+    except ValueError:  # if keyphrase is one word ('STOP') -> arg is empty
+        key, arg = keyphrase, ''
     arg = arg.strip('\n')
     try:
         if arg in KEYWORDS_ARG.keys():
@@ -42,10 +46,12 @@ class Vehicle():
         self.commands += 1
         if isinstance(on_off, IGNITION_STATE):
             self.ignition = on_off
+            if self.ignition == IGNITION_STATE.OFF:  # ignition was turned off
+                self.speed = 0
         else:
             raise KeyError
         if self.debug:
-            print(f'{self.commands}. Ignition: {self.ignition}')
+            print(f'{self.commands}. Ignition: {self.ignition.name}')
 
     def set_speed(self, speed: int):
         self.commands += 1
@@ -82,14 +88,14 @@ class Vehicle():
         else:
             self.set_error(QOS.NORMAL)
         if self.error != QOS.NORMAL:
-            print(f'ERROR STATE! {self.error}')
+            print(f'ERROR STATE! {self.error.name}')
 
     def print_state(self):
         print('------------STATE------------')
-        print(f'Ignition:    {self.ignition}')
+        print(f'Ignition:    {self.ignition.name}')
         print(f'Temperature: {self.temp}')
         print(f'Speed:       {self.speed}')
-        print(f'Error state: {self.error}')
+        print(f'Error state: {self.error.name}')
         print('-----------------------------')
 
     def check_simulation_end(self):
